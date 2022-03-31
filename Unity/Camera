@@ -1,0 +1,45 @@
+public class Define
+{
+// 카메라 타입 선언
+    public enum CameraMode
+    {
+        QuarterView,
+    }
+    
+-------------------------------------------------------------
+
+public class CameraController : MonoBehaviour
+{
+    [SerializeField]
+    Define.CameraMode _mode = Define.CameraMode.QuarterView;
+
+    [SerializeField]
+    Vector3 _delta = new Vector3(0.0f,6.0f,-5.0f);
+
+    [SerializeField]
+    GameObject _player = null;
+
+    // 
+    void Start()
+    {
+        
+    }
+
+    // Player의 이동이 Update문에서 실행되기때문에 프로세스 상 Update보다 뒤에 실행되는 LateUpdate문을 사용하여 코드가 겹쳐서 실행되는것을 방지
+    void LateUpdate()
+    {
+        if (_mode == Define.CameraMode.QuarterView)
+        {
+            transform.position = _player.transform.position + _delta;
+            // Camera가 무조건 player의 좌표를 주시하도록 함
+            transform.LookAt(_player.transform);
+        }
+        
+    }
+
+    public void SetQuaterView(Vector3 delta)
+    {
+        _mode = Define.CameraMode.QuarterView;
+        _delta = delta;
+    }
+}
